@@ -15,6 +15,15 @@ export default (app: Application, userSerivce: UserService, companyService: Comp
   app.use(cors());
   app.use(express.json());
   app.use('/uploads', express.static(path.join(__dirname, '../uploads/')));
+
+  app.get('/', (req, res) => {
+    res.redirect(config.api.prefix);
+  });
+
+  app.get(config.api.prefix, (req, res) => {
+    res.send('This is the /api route');
+  });
+
   app.use(config.api.prefix, authMiddleware);
   app.use(config.api.prefix, routes(userSerivce, companyService));
   app.use((err: any, req: Request, res: Response, next: NextFunction) => {
