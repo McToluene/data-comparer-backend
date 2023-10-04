@@ -13,7 +13,7 @@ export default class UserService {
         const newUser = {
           firebaseId: data.uid,
           email: data.email,
-          role: Role.USER,
+          role: Role.ADMIN,
         };
         user = await this.userModel.create(newUser);
       }
