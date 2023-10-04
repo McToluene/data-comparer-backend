@@ -2,6 +2,7 @@ import firebase from 'firebase-admin';
 import dotenv from 'dotenv';
 dotenv.config();
 
+console.log(process.env.FIREBASE_PRIVATE_KEY);
 const firebaseConfig = {
   type: 'service_account',
   project_id: process.env.FIREBASE_PROJECT_ID,
