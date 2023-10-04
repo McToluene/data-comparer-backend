@@ -7,6 +7,7 @@ const Company = (db: Sequelize) => {
     products: DataTypes.INTEGER,
     userFirebaseId: DataTypes.STRING,
     percentage: DataTypes.INTEGER,
+    imageURL: DataTypes.STRING,
   });
   return company;
 };

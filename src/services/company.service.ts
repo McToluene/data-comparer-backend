@@ -29,7 +29,7 @@ export default class CompanyService {
     return company?.toJSON<ICompany>();
   }
 
-  async getCompanies() {
+  async getCompanies(): Promise<ICompany[] | undefined> {
     let companies = null;
     try {
       const usersQuery = await this.userModel.findAll({ where: { role: Role.USER }, limit: 2 });
@@ -41,12 +41,26 @@ export default class CompanyService {
     return companies?.map((company) => company.toJSON<ICompany>());
   }
 
-  async getUserCompany(userId: string) {
+  async getUserCompany(userId: string): Promise<ICompany | undefined> {
     let company = null;
     try {
       company = await this.companyModel.findOne({ where: { userFirebaseId: userId } });
     } catch (error) {
       console.log('FAILED TO GET COMPANY', error);
+    }
+    return company?.toJSON<ICompany>();
+  }
+
+  async update(companyId: any, fileUrl: string) {
+    let company = null;
+    try {
+      company = await this.companyModel.findOne({ where: { id: companyId } });
+      if (company) {
+        await this.companyModel.update({ imageURL: fileUrl }, { where: { id: companyId } });
+        company = await this.companyModel.findOne({ where: { id: companyId } });
+      }
+    } catch (error) {
+      console.log('FAILED TO UPDATE COMPANY', error);
     }
     return company?.toJSON<ICompany>();
   }

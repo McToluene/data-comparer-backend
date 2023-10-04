@@ -1,6 +1,7 @@
 import { Router, Response, Request } from 'express';
 import CompanyService from '../../services/company.service';
 import { ICompanyRequestDto } from '../../dto/request/company.request';
+import upload from '../../middlewares/upload.middleware';
 
 export default (app: Router, companyService: CompanyService) => {
   app.post('/company', async (req: Request, res: Response) => {
@@ -31,5 +32,20 @@ export default (app: Router, companyService: CompanyService) => {
     if (companies)
       return res.status(200).json({ message: 'Company fetched successfully!', data: companies });
     else return res.status(404).json({ message: 'Company not found!' });
+  });
+
+  app.post('/image', upload.single('file'), async (req: Request, res: Response) => {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+    const data = req.body;
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const filePath = req.file.path.replace(/\\/g, '/');
+    const fileUrl = `${baseUrl}/${filePath}`;
+
+    const company = await companyService.update(data.companyId, fileUrl);
+    if (company)
+      return res.status(201).json({ message: 'Company updated successfully!', data: company });
+    else return res.status(400).json({ message: 'Failed to update user!' });
   });
 };
