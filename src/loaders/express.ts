@@ -5,6 +5,7 @@ import routes from '../api/';
 import UserService from '../services/user.service';
 import authMiddleware from '../middlewares/auth-middleware';
 import CompanyService from '../services/company.service';
+import path from 'path';
 
 export default (app: Application, userSerivce: UserService, companyService: CompanyService) => {
   app.get('/status', (req, res) => {
@@ -13,6 +14,7 @@ export default (app: Application, userSerivce: UserService, companyService: Comp
 
   app.use(cors());
   app.use(express.json());
+  app.use('/uploads', express.static(path.join(__dirname, '../uploads/')));
   app.use(config.api.prefix, authMiddleware);
   app.use(config.api.prefix, routes(userSerivce, companyService));
   app.use((err: any, req: Request, res: Response, next: NextFunction) => {
