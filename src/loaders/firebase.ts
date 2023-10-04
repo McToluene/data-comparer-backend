@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 console.log(process.env.FIREBASE_PRIVATE_KEY);
-const firebaseConfig = {
+const firebaseConfig = process.env.FIREBASE ?? {
   type: 'service_account',
   project_id: process.env.FIREBASE_PROJECT_ID,
   private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
