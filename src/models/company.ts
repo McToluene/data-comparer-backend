@@ -6,7 +6,7 @@ const Company = (db: Sequelize) => {
     users: DataTypes.INTEGER,
     products: DataTypes.INTEGER,
     userFirebaseId: DataTypes.STRING,
-    percentage: DataTypes.INTEGER,
+    percentage: DataTypes.STRING,
     imageURL: DataTypes.STRING,
   });
   return company;
