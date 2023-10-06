@@ -32,7 +32,7 @@ export default class CompanyService {
   async getCompanies(): Promise<ICompany[] | undefined> {
     let companies = null;
     try {
-      const usersQuery = await this.userModel.findAll({ where: { role: Role.USER }, limit: 2 });
+      const usersQuery = await this.userModel.findAll({ where: { role: Role.USER }, limit: 3 });
       const userIds = usersQuery?.map((user) => user.toJSON<IUser>()).map((u) => u.firebaseId);
       companies = await this.companyModel.findAll({ where: { userFirebaseId: userIds }, limit: 2 });
     } catch (error) {
